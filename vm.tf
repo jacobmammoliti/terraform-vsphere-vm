@@ -66,7 +66,7 @@ resource "vsphere_virtual_machine" "gitlab" {
         host_name = "${var.vmname_prefix}-${count.index}"
         domain    = var.domain
       }
-
+      
       network_interface {}
     }
   }

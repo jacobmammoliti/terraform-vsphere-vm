@@ -15,5 +15,5 @@ module "vault-servers" {
   vmname            = "vault"
   instances         = 1
   folder            = "jacob"
-  data_disk_size_gb = [50]
+  data_disk_size_gb = [25]
 }

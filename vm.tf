@@ -51,7 +51,7 @@ resource "vsphere_virtual_machine" "vm" {
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
   }
 
-  wait_for_guest_net_timeout = 0
+  #wait_for_guest_net_timeout = 0
   
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id

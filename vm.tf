@@ -1,7 +1,3 @@
-provider "vsphere" {
- allow_unverified_ssl = true
-}
-
 data "vsphere_datacenter" "dc" {
   name = var.datacenter
 }
@@ -26,9 +22,13 @@ data "vsphere_virtual_machine" "template" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
-resource "vsphere_virtual_machine" "gitlab" {
-  count            = var.vm_count
-  name             = "${var.vmname_prefix}-${count.index}"
+locals {
+  template_disk_count = length(var.data_disk_size_gb)
+}
+
+resource "vsphere_virtual_machine" "vm" {
+  count            = var.instances
+  name             = var.instances != 1 ? "${var.vmname}-${count.index}" : var.vmname
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
 
@@ -44,18 +44,28 @@ resource "vsphere_virtual_machine" "gitlab" {
     adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
   }
 
-  disk {
-    label            = "disk0"
-    size             = data.vsphere_virtual_machine.template.disks.0.size
-    eagerly_scrub    = data.vsphere_virtual_machine.template.disks.0.eagerly_scrub
-    thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
+  # defined disks from template
+  dynamic "disk" {
+    for_each = data.vsphere_virtual_machine.template.disks
+
+    content {
+      label            = "disk${disk.key}"
+      unit_number      = disk.key
+      size             = data.vsphere_virtual_machine.template.disks[disk.key].size
+      eagerly_scrub    = data.vsphere_virtual_machine.template.disks[disk.key].eagerly_scrub
+      thin_provisioned = data.vsphere_virtual_machine.template.disks[disk.key].thin_provisioned
+    }
   }
 
-  disk {
-    label            = "disk1"
-    size             = 100
-    thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
-    unit_number      = 1
+  # defined additional disks by users
+  dynamic "disk" {
+    for_each = var.data_disk_size_gb
+
+    content {
+      label            = "disk${disk.key + local.template_disk_count}"
+      size             = var.data_disk_size_gb[disk.key]
+      unit_number      = disk.key + local.template_disk_count
+    }
   }
   
   clone {
@@ -63,7 +73,7 @@ resource "vsphere_virtual_machine" "gitlab" {
 
     customize {
       linux_options {
-        host_name = "${var.vmname_prefix}-${count.index}"
+        host_name = var.instances != 1 ? "${var.vmname}-${count.index}" : var.vmname
         domain    = var.domain
       }
       

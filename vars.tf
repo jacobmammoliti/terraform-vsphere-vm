@@ -1,4 +1,4 @@
-variable "vm_count" {
+variable "instances" {
   description = "number of VMs to provision"
 }
 
@@ -9,7 +9,7 @@ variable "cpu_count" {
 
 variable "memory_count" {
   description = "memory count for VM"
-  default     = 8192
+  default     = 4096
 }
 
 variable "folder" {
@@ -47,7 +47,13 @@ variable "domain" {
   description = "domain for VM"
 }
 
-variable "vmname_prefix" {
+variable "vmname" {
   type        = string
   description = "prefix to give VM name and hostname"
+}
+
+variable "data_disk_size_gb" {
+  type         = list
+  description  = "storage data disk size in gb"
+  default      = []
 }

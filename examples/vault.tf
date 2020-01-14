@@ -3,7 +3,8 @@ provider "vsphere" {
 }
 
 module "vault-servers" {
-	source  = "../."
+  source  = "tfe.cdcug.local/arctiq/demo/vmware"
+  version = "0.0.1"
 
   datastore         = "CDCUG_VMware_general"
   cluster           = "cluster01"

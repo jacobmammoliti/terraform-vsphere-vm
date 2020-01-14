@@ -1,16 +1,13 @@
 variable "vm_count" {
-  type        = string
   description = "number of VMs to provision"
 }
 
 variable "cpu_count" {
-  type        = string
   description = "CPU count for VM"
   default     = 2
 }
 
 variable "memory_count" {
-  type        = string
   description = "memory count for VM"
   default     = 8192
 }
@@ -18,4 +15,39 @@ variable "memory_count" {
 variable "folder" {
   type        = string
   description = "folder to deploy VMs into"
+}
+
+variable "datastore" {
+  type        = string
+  description = "datastore to deploy VM disk on"
+}
+
+variable "cluster" {
+  type        = string
+  description = "cluster to deploy VM into"
+}
+
+variable "network" {
+  type        = string
+  description = "network to attach VM NIC to"
+}
+
+variable "datacenter" {
+  type        = string
+  description = "datacenter to deploy VM into"
+}
+
+variable "template" {
+  type        = string
+  description = "name of template to use for VM"
+}
+
+variable "domain" {
+  type        = string
+  description = "domain for VM"
+}
+
+variable "vmname_prefix" {
+  type        = string
+  description = "prefix to give VM name and hostname"
 }

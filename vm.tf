@@ -3,32 +3,32 @@ provider "vsphere" {
 }
 
 data "vsphere_datacenter" "dc" {
-  name = "cdcug"
+  name = var.datacenter
 }
 
 data "vsphere_datastore" "datastore" {
-  name          = "CDCUG_VMware_general"
+  name          = var.datastore
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_compute_cluster" "cluster" {
-  name          = "cluster01"
+  name          = var.cluster
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_network" "network" {
-  name          = "VM Network"
+  name          = var.network
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_virtual_machine" "template" {
-  name          = "ubuntu-18.04.3"
+  name          = var.template
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 resource "vsphere_virtual_machine" "vm" {
   count            = var.vm_count
-  name             = "vm-${count.index}"
+  name             = "${var.vmname_prefix}-${count.index}"
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
 
@@ -53,6 +53,15 @@ resource "vsphere_virtual_machine" "vm" {
 
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id
+
+    customize {
+      linux_options {
+        host_name = "${var.vmname_prefix}-${count.index}"
+        domain    = var.domain
+      }
+
+      network_interface {}
+    }
   }
 }
 

@@ -27,6 +27,7 @@ data "vsphere_virtual_machine" "template" {
 }
 
 resource "vsphere_virtual_machine" "gitlab" {
+  count            = var.vm_count
   name             = "${var.vmname_prefix}-${count.index}"
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
@@ -69,8 +70,4 @@ resource "vsphere_virtual_machine" "gitlab" {
       network_interface {}
     }
   }
-}
-
-output "ip_address" {
-  value = vsphere_virtual_machine.vm.*.default_ip_address
 }

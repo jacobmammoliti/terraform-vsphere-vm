@@ -26,8 +26,7 @@ data "vsphere_virtual_machine" "template" {
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
-resource "vsphere_virtual_machine" "vm" {
-  count            = var.vm_count
+resource "vsphere_virtual_machine" "gitlab" {
   name             = "${var.vmname_prefix}-${count.index}"
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
   datastore_id     = data.vsphere_datastore.datastore.id
@@ -51,7 +50,12 @@ resource "vsphere_virtual_machine" "vm" {
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
   }
 
-  #wait_for_guest_net_timeout = 0
+  disk {
+    label            = "disk1"
+    size             = 100
+    thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
+    unit_number      = 1
+  }
   
   clone {
     template_uuid = data.vsphere_virtual_machine.template.id

@@ -19,7 +19,7 @@ module "vault-servers" {
 }
 
 output "gitlab_ips" {
-  value = module.gitlab.vm_ips
+  value = module.vault-servers.vm_ips
 }
 
 module "kubernetes-servers" {
@@ -38,5 +38,5 @@ module "kubernetes-servers" {
 }
 
 output "kubernetes_ips" {
-  value = module.kubernetes.vm_ips
+  value = module.kubernetes-servers.vm_ips
 }

@@ -18,7 +18,7 @@ module "vault-servers" {
   data_disk_size_gb = [25]
 }
 
-module "vault-servers" {
+module "kubernetes-servers" {
   source  = "tfe.cdcug.local/arctiq/demo/vmware"
   version = "0.0.1"
 

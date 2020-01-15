@@ -18,6 +18,10 @@ module "vault-servers" {
   data_disk_size_gb = [25]
 }
 
+output "gitlab_ips" {
+  value = module.gitlab.vm_ips
+}
+
 module "kubernetes-servers" {
   source  = "tfe.cdcug.local/arctiq/demo/vmware"
   version = "0.0.1"
@@ -31,4 +35,8 @@ module "kubernetes-servers" {
   vmname            = "kubernetes"
   instances         = 2
   folder            = "jacob"
+}
+
+output "kubernetes_ips" {
+  value = module.kubernetes.vm_ips
 }

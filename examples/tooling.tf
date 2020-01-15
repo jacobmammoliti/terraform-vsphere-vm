@@ -18,6 +18,10 @@ module "gitlab" {
   data_disk_size_gb = [50]
 }
 
+output "gitlab_ips" {
+  value = module.gitlab.vm_ips
+}
+
 # Use the terraform-vsphere-vm module to deploy two Kubernetes servers
 module "kubernetes" {
   source  = "../."
@@ -32,4 +36,8 @@ module "kubernetes" {
   memory_count      = 8192
   instances         = 2
   folder            = "jacob"
+}
+
+output "kubernetes_ips" {
+  value = module.kubernetes.vm_ips
 }

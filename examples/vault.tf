@@ -13,7 +13,7 @@ module "vault-servers" {
   template          = "centos-7.7-template"
   domain            = "cdcug.local"
   vmname            = "vault"
-  instances         = 1
+  instances         = 2
   folder            = "jacob"
   data_disk_size_gb = [25]
 }

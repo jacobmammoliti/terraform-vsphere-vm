@@ -4,7 +4,7 @@ provider "vsphere" {
 
 module "kubernetes" {
   source  = "tfe.cdcug.local/arctiq/demo/vmware"
-  version = "0.0.1"
+  version = "0.0.2"
 
   datastore         = "CDCUG_VMware_general"
   cluster           = "cluster01"

@@ -10,7 +10,7 @@ module "kubernetes" {
   cluster           = "cluster01"
   network           = "VM Network"
   datacenter        = "cdcug"
-  template          = "centos-7.7-template"
+  template          = "centos-7.7-template2"
   domain            = "cdcug.local"
   vmname            = "kubernetes"
   instances         = 2

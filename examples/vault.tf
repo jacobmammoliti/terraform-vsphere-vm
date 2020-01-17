@@ -2,7 +2,7 @@ provider "vsphere" {
  allow_unverified_ssl = true
 }
 
-module "kubernetes" {
+module "vault" {
   source  = "tfe.cdcug.local/arctiq/vm/vsphere"
   version = "0.0.2"
 
@@ -12,7 +12,7 @@ module "kubernetes" {
   datacenter        = "cdcug"
   template          = "centos-7.7-template2"
   domain            = "cdcug.local"
-  vmname            = "kubernetes"
+  vmname            = "vault"
   instances         = 2
   folder            = "jacob"
 }

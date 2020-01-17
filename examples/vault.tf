@@ -17,6 +17,6 @@ module "vault" {
   folder            = "jacob"
 }
 
-output "kubernetes_ips" {
-  value = module.kubernetes.instance_ip_addr
+output "vault_ips" {
+  value = module.vault.instance_ip_addr
 }

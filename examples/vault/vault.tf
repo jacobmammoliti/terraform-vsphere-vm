@@ -13,7 +13,7 @@ module "vault" {
   template          = "centos-7.7-template2"
   domain            = "cdcug.local"
   vmname            = "vault"
-  instances         = 2
+  instances         = 1
   folder            = "jacob"
 }
 

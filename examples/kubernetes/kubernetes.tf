@@ -13,7 +13,7 @@ module "kubernetes" {
   template          = "centos-7.7-template2"
   domain            = "cdcug.local"
   vmname            = "kubernetes"
-  instances         = 1
+  instances         = 0
   folder            = "jacob"
 }
 
